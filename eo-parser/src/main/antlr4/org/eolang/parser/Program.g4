@@ -110,8 +110,7 @@ method
 application
   :
   head htail*
-  | application method htail*
-  | application (has |suffix) htail*
+  | application (method | has | suffix) htail*
   | LB application RB htail*
   ;
 
@@ -122,12 +121,12 @@ htail
   (
     head
     |
-    application
-    method
-    |
     LB
     application
     RB
+    |
+    application
+    method
     |
     application
     (has | suffix)
