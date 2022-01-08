@@ -41,7 +41,7 @@ object
   (
     EOL
     method
-    htail?
+    htail*
     suffix?
     tail?
   )*
@@ -120,18 +120,9 @@ htail
   SPACE
   (
     head
-    |
-    LB
-    application
-    RB
-    |
-    application
-    method
-    |
-    application
-    (has | suffix)
-    |
-    abstraction
+    | LB application RB
+    | application (method | has | suffix)
+    | abstraction
   )
   )+
   ;

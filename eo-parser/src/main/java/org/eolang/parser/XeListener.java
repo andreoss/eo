@@ -29,6 +29,7 @@ import com.jcabi.xml.XMLDocument;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -60,6 +61,9 @@ public final class XeListener implements ProgramListener {
      */
     private final long start;
 
+
+    private final AtomicInteger depth;
+
     /**
      * Ctor.
      * @param nme Tha name of it
@@ -68,6 +72,28 @@ public final class XeListener implements ProgramListener {
         this.name = nme;
         this.dirs = new Directives();
         this.start = System.nanoTime();
+        this.depth = new AtomicInteger();
+    }
+
+    /**
+     * Trim margin from text block.
+     * @param text Text block.
+     * @param indent Indentation level.
+     * @return Trimmed text.
+     */
+    private static String trimMargin(final String text, final int indent) {
+        final String rexp = "\n\\s{%d}";
+        String res = text
+            // @checkstyle MagicNumberCheck (1 line)
+            .substring(3, text.length() - 3);
+        res = res.replaceAll(String.format(rexp, indent), "\n");
+        if (!res.isEmpty() && res.charAt(0) == '\n') {
+            res = res.substring(1);
+        }
+        if (!res.isEmpty() && res.charAt(res.length() - 1) == '\n') {
+            res = res.substring(0, res.length() - 1);
+        }
+        return res;
     }
 
     /**
@@ -311,12 +337,17 @@ public final class XeListener implements ProgramListener {
 
     @Override
     public void enterApplication(final ProgramParser.ApplicationContext ctx) {
+        System.err.println(">>" + this.depth);
+        if (this.depth.getAndIncrement() > 0) {
+        }
         // This method is created by ANTLR and can't be removed
     }
 
     @Override
     public void exitApplication(final ProgramParser.ApplicationContext ctx) {
-        // This method is created by ANTLR and can't be removed
+        if (this.depth.getAndDecrement() < 1) {
+            System.err.println("<<" + this.depth);
+        }
     }
 
     @Override
@@ -331,7 +362,7 @@ public final class XeListener implements ProgramListener {
 
     // @checkstyle ExecutableStatementCountCheck (100 lines)
     @Override
-    @SuppressWarnings({ "PMD.ConfusingTernary", "PMD.CyclomaticComplexity" })
+    @SuppressWarnings({"PMD.ConfusingTernary", "PMD.CyclomaticComplexity"})
     public void enterData(final ProgramParser.DataContext ctx) {
         final String type;
         final String data;
@@ -421,27 +452,6 @@ public final class XeListener implements ProgramListener {
      */
     private void enter() {
         this.dirs.xpath("o[last()]").strict(1);
-    }
-
-    /**
-     * Trim margin from text block.
-     * @param text Text block.
-     * @param indent Indentation level.
-     * @return Trimmed text.
-     */
-    private static String trimMargin(final String text, final int indent) {
-        final String rexp = "\n\\s{%d}";
-        String res = text
-            // @checkstyle MagicNumberCheck (1 line)
-            .substring(3, text.length() - 3);
-        res = res.replaceAll(String.format(rexp, indent), "\n");
-        if (!res.isEmpty() && res.charAt(0) == '\n') {
-            res = res.substring(1);
-        }
-        if (!res.isEmpty() && res.charAt(res.length() - 1) == '\n') {
-            res = res.substring(0, res.length() - 1);
-        }
-        return res;
     }
 
 }
