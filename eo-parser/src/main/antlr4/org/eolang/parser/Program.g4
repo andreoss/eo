@@ -109,52 +109,31 @@ method
 
 application
   :
-  head
-  htail?
-  |
-  application
-  method
-  htail?
-  |
-  LB
-  application
-  RB
-  htail?
-  |
-  application
-  has
-  htail?
-  |
-  application
-  suffix
-  htail?
+  head htail*
+  | application method htail*
+  | LB application RB htail*
+  | application (has |suffix) htail*
   ;
 
 htail
   :
   (
-    SPACE
+  SPACE
+  (
     head
     |
-    SPACE
     application
     method
     |
-    SPACE
     LB
     application
     RB
     |
-    SPACE
     application
-    has
+    (has | suffix)
     |
-    SPACE
-    application
-    suffix
-    |
-    SPACE
     abstraction
+  )
   )+
   ;
 
