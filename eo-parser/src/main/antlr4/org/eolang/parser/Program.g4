@@ -111,8 +111,8 @@ application
   :
   head htail*
   | application method htail*
-  | LB application RB htail*
   | application (has |suffix) htail*
+  | LB application RB htail*
   ;
 
 htail
