@@ -89,22 +89,14 @@ suffix
 method
   :
   DOT
-  mtd=(
-    NAME
-    |
-    RHO
-    |
-    AT
-    |
-    VERTEX
-  )
+  mtd=( NAME | RHO | AT | VERTEX )
   ;
 
 application
   :
-    head (SPACE htail (method | has | suffix)?)*
+    head                                (SPACE htail (method | has | suffix)?)*
   | application (method | has | suffix) (SPACE htail (method | has | suffix)?)*
-  | LB application RB (SPACE htail (method | has | suffix)?)*
+  | LB application RB                   (SPACE application (method | has | suffix)?)*
   ;
 
 htail

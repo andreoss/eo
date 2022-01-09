@@ -1,0 +1,8 @@
+xsls: []
+tests:
+  - /program/errors[count(*)=0]
+eo: |
+  (a (b (c (d (e 1) f) g) h) k)
+  (((^ > @)))
+  a (f.g 1)
+  (f.g (1.add 2)).h
