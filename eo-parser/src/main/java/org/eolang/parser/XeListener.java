@@ -327,27 +327,48 @@ public final class XeListener implements ProgramListener {
 
     @Override
     public void enterApplication(final ProgramParser.ApplicationContext ctx) {
-        System.err.println(">>" + this.depth);
-        if (this.depth.getAndIncrement() > 0) {
+        if (ctx.getParent().getRuleIndex() == ProgramParser.RULE_abstraction) {
+            this.enter();
         }
-        // This method is created by ANTLR and can't be removed
+//        else if (ctx.getParent().getRuleIndex() == ProgramParser.RULE_object) {
+//            this.enter();
+//        }
     }
 
     @Override
     public void exitApplication(final ProgramParser.ApplicationContext ctx) {
-        if (this.depth.getAndDecrement() < 1) {
-            System.err.println("<<" + this.depth);
+        if (ctx.getParent().getRuleIndex() == ProgramParser.RULE_abstraction) {
+            this.dirs.up();
         }
+//        else if (ctx.getParent().getRuleIndex() == ProgramParser.RULE_object) {
+//            this.dirs.up();
+//        }
     }
 
     @Override
     public void enterHtail(final ProgramParser.HtailContext ctx) {
-        this.enter();
+        System.err.println(">>" + this.depth + " " +
+            ProgramParser.ruleNames[ctx.getParent().getRuleIndex()]
+        );
+        if (ctx.getParent().getRuleIndex() == ProgramParser.RULE_application) {
+            this.enter();
+        }
+        if (ctx.getParent().getRuleIndex() == ProgramParser.RULE_object) {
+            this.enter();
+        }
     }
 
     @Override
     public void exitHtail(final ProgramParser.HtailContext ctx) {
-        this.dirs.up();
+        System.err.println("H<<" + this.depth + " " +
+            ProgramParser.ruleNames[ctx.getParent().getRuleIndex()]
+        );
+        if (ctx.getParent().getRuleIndex() == ProgramParser.RULE_application) {
+            this.dirs.up();
+        }
+        if (ctx.getParent().getRuleIndex() == ProgramParser.RULE_object) {
+            this.dirs.up();
+        }
     }
 
     // @checkstyle ExecutableStatementCountCheck (100 lines)

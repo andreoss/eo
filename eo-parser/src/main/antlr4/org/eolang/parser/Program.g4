@@ -41,7 +41,7 @@ object
   (
     EOL
     method
-    htail*
+    htail?
     suffix?
     tail?
   )*
@@ -49,12 +49,10 @@ object
 
 abstraction
   :
-  LSQ
-  (attribute (SPACE attribute)*)?
-  RSQ
+     LSQ (attribute (SPACE attribute)*)? RSQ
   (
      (suffix (SPACE SLASH (NAME | QUESTION))?)
-   | htail+
+   | (SPACE application)+
   )?
   ;
 
@@ -104,7 +102,7 @@ method
 
 application
   :
-  head htail*
+    head htail*
   | application (method | has | suffix) htail*
   | LB application RB htail*
   ;
