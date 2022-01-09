@@ -212,16 +212,6 @@ public final class XeListener implements ProgramListener {
     }
 
     @Override
-    public void enterAttributes(final ProgramParser.AttributesContext ctx) {
-        // This method is created by ANTLR and can't be removed
-    }
-
-    @Override
-    public void exitAttributes(final ProgramParser.AttributesContext ctx) {
-        // This method is created by ANTLR and can't be removed
-    }
-
-    @Override
     public void enterAttribute(final ProgramParser.AttributeContext ctx) {
         this.enter();
         this.dirs.add("o").attr("line", ctx.getStart().getLine());

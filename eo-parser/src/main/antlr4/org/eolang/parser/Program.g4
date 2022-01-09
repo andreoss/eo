@@ -49,18 +49,13 @@ object
 
 abstraction
   :
-  attributes
+  LSQ
+  (attribute (SPACE attribute)*)?
+  RSQ
   (
      (suffix (SPACE SLASH (NAME | QUESTION))?)
    | htail+
   )?
-  ;
-
-attributes
-  :
-  LSQ
-  (attribute (SPACE attribute)*)?
-  RSQ
   ;
 
 attribute
