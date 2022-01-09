@@ -52,7 +52,7 @@ abstraction
   attributes
   (
      (suffix (SPACE SLASH (NAME | QUESTION))?)
-   | htail
+   | htail+
   )?
   ;
 
@@ -116,7 +116,6 @@ application
 
 htail
   :
-  (
   SPACE
   (
     head
@@ -124,7 +123,6 @@ htail
     | application (method | has | suffix)
     | abstraction
   )
-  )+
   ;
 
 head
