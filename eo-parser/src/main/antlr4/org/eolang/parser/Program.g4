@@ -102,16 +102,16 @@ method
 
 application
   :
-    head (SPACE htail)*
-  | application (method | has | suffix) (SPACE htail)*
-  | LB application RB (SPACE htail)*
+    head (SPACE htail (method | has | suffix)?)*
+  | application (method | has | suffix) (SPACE htail (method | has | suffix)?)*
+  | LB application RB (SPACE htail (method | has | suffix)?)*
   ;
 
 htail
   :
     head
   | LB application RB
-  | application (method | has | suffix)
+  | application
   | abstraction
   ;
 
